@@ -1,11 +1,13 @@
 # == Class dns::server
 #
 class dns::server::config (
-  $cfg_dir  = $dns::server::params::cfg_dir,
-  $cfg_file = $dns::server::params::cfg_file,
-  $data_dir = $dns::server::params::data_dir,
-  $owner    = $dns::server::params::owner,
-  $group    = $dns::server::params::group,
+  $cfg_dir           = $dns::server::params::cfg_dir,
+  $cfg_file_template = $dns::server::params::cfg_file_template,
+  $replace_cfg_file  = $dns::server::params::replace_cfg_file,
+  $cfg_file          = $dns::server::params::cfg_file,
+  $data_dir          = $dns::server::params::data_dir,
+  $owner             = $dns::server::params::owner,
+  $group             = $dns::server::params::group,
 ) inherits dns::server::params {
 
   file { $cfg_dir:
@@ -34,6 +36,8 @@ class dns::server::config (
     owner   => $owner,
     group   => $group,
     mode    => '0644',
+    replace => $replace_cfg_file,
+    content => template($cfg_file_template),
     require => [
       File[$cfg_dir],
       Class['dns::server::install']

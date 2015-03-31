@@ -56,6 +56,8 @@ define dns::server::options (
 ) {
   $valid_check_names = ['fail', 'warn', 'ignore']
   $cfg_dir = $::dns::server::params::cfg_dir
+  $working_dir = $::dns::server::params::working_dir
+
 
   if ! defined(Class['::dns::server']) {
     fail('You must include the ::dns::server base class before using any dns options defined resources')
